@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplebase</title>
+    <link rel="shortcut icon" href="assets/logo-dark.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class=" bg-neutral-900 text-white">
+    <nav class="py-3 px-5 sticky top-0 w-full bg-neutral-900 z-50 bg-opacity-80 bg-clip-padding backdrop-blur-[3px] text-white border-neutral-800 border-b">
+        <div class="relative max-w-7xl flex items-center justify-between mx-auto">
+            <div class="logo">
+                <a href="index.html" class="flex items-center">
+                    <img src="assets/logo.png" class="w-[50px] h-[50px]">
+                    <p class="font-bold">simplebase</p>
+                </a>
+            </div>
+            <div class="navlinks hidden md:flex items-center space-x-5">
+                <a href="#"class="hover:text-[#2FAC77] transition duration-200">Documentation</a>
+                <a href="#"class="hover:text-[#2FAC77] transition duration-200">Databases</a>
+            </div>
+            <div class="buttons hidden md:flex items-center justify-center space-x-2">
+                <button class="border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Sign in</button>
+                <button class="p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
+            </div>
+            <!-- mob -->
+            <div class="md:hidden flex items-center mobile-menu-icon">
+                <button><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                    class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg></button>
+
+            </div>
+        </div>
+        <!-- mob menu -->
+        <div class="md:hidden mobile-menu">
+            <a href="#" class="block py-2 px-4 text-sm text-center hover:text-gray-500 transition duration-200">Documentation</a>
+            <a href="#" class="block py-2 px-4 text-sm text-center hover:text-gray-500 transition duration-200">Databases</a>
+        </div>
+    </nav>
+    <div class="flex items-center my-40 mx-10 justify-around md:flex-row flex-col">
+        <div class="flex justify-center flex-col">
+            <h1 class="text-5xl font-bold mx-5">Databases</h1>
+            <h1 class="text-5xl font-bold mx-5">without <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#2FAC77] to-[#1B6646]">limits.</span></h1>
+            <p class="w-[400px] py-5 font-thin text-[#D8D8D8] mx-5">Simplebase is a completely <span class="text-[#2FAC77]">free</span> database that
+            doesn't charge you for every 2 requests you
+            make. We are a Firebase inspired company. You
+            can use simplebase on any language that
+            supports <span class="text-[#2FAC77]">HTTPS</span> requests.</p>
+            <div class="mx-5 flex space-x-2">
+                <button class="p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
+                <button class="border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Documentation</button>
+            </div>
+        </div>
+        <img src="assets/engineer.svg" class="m-5 h-60">
+    </div>
+</body>
+<script>
+    const mobileIcon = document.querySelector(".mobile-menu-icon")
+    const menu = document.querySelector(".mobile-menu")
+    mobileIcon.addEventListener("click",function(){
+        menu.classList.toggle("hidden")
+    })
+</script>
+</html>
+<!-- green-effect: #2FAC77 -->
+<!-- background-shade: bg-neutral-900 -->
+<!-- light-shade: bg-neutral-800 -->
