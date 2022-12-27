@@ -23,7 +23,7 @@
                 <a href="#"class="hover:text-[#2FAC77] transition duration-200">Databases</a>
             </div>
             <div class="buttons hidden md:flex items-center justify-center space-x-2">
-                <button class="border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Sign in</button>
+                <button class="loginButton border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Sign in</button>
                 <button class="p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
             </div>
             <div class="md:hidden flex items-center mobile-menu-icon">
@@ -61,6 +61,11 @@
     const menu = document.querySelector(".mobile-menu")
     mobileIcon.addEventListener("click",function(){
         menu.classList.toggle("hidden")
+    })
+    document.querySelectorAll(".loginButton").forEach(button=>{
+        button.addEventListener("click",()=>{
+            window.location.assign("login.html")
+        })
     })
 </script>
 </html>
