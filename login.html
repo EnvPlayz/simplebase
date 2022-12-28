@@ -28,7 +28,8 @@
         </div>
     </div>
 </body>
-<script>
+<script src="auth.js"></script>
+<script defer>
     // why are you reading this code dont try to tamper with it or else you might jsut get a smol lil hardware ban :D
     const mobileIcon = document.querySelector(".mobile-menu-icon")
     const menu = document.querySelector(".mobile-menu")
@@ -39,6 +40,11 @@
         button.addEventListener("click", () => {
             window.location.assign("login.html")
         })
+    })
+    isAuthenticated().then(res => {
+        if (res == true) {
+            window.location.assign("index.html")
+        }
     })
     // variables
     var loginBtn = document.querySelector('#loginBtn')
@@ -66,12 +72,18 @@
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({username:username.value,password:pass.value}),
-        })
-            .then((response) => response.json())
-            .then((data) => {
+        }).then((response) => response.json()).then(data => {
                 loginBtn.innerHTML="Login"
                 if(data.success==true){
-                    console.log('Success:', data);
+                    loginBtn.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>`
+                    fetch("https://api.simplebase.ga/auth/user",{
+                        method: 'GET',
+                        credentials: "include",
+                    }).then((res) => res.json()).then(userData=>{
+                        window.location.assign("index.html")
+                    })
                 }else{
                     errmsg.classList.remove("hidden")
                     username.classList.add("border-red-600")
@@ -79,7 +91,6 @@
                     pass.classList.add("border-red-600")
                     pass.classList.add("border-2")
                     errmsg.textContent=data.msg
-                    console.error(data.msg);
                 }
             })
             .catch((error) => {
