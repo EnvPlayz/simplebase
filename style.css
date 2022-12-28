@@ -26,10 +26,11 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #333333cc;
 }
-
-.spin{
+#loginBtn *{
     width: 30px;
     height: 30px;
+}
+.spin{
     animation: spin 0.5s linear infinite;
 }
 
