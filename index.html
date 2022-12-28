@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-neutral-900 text-white">
-    <script src="navbar.js?data=epik"></script>
+    <script src="auth.js"></script>
+    <script src="navbar.js"></script>
     <div class="flex items-center my-40 mx-10 justify-around md:flex-row flex-col">
         <div class="flex justify-center flex-col">
             <h1 class="text-5xl font-bold mx-5">Databases</h1>
@@ -21,14 +22,13 @@
             can use simplebase on any language that
             supports <span class="text-[#2FAC77]">HTTPS</span> requests.</p>
             <div class="mx-5 flex space-x-2">
-                <button class="p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
+                <button class="signupButton p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
                 <button class="border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Documentation</button>
             </div>
         </div>
         <img src="assets/engineer.svg" class="m-5 h-60">
     </div>
 </body>
-<script src="auth.js"></script>
 <script>
     const mobileIcon = document.querySelector(".mobile-menu-icon")
     const menu = document.querySelector(".mobile-menu")
@@ -38,6 +38,11 @@
     document.querySelectorAll(".loginButton").forEach(button=>{
         button.addEventListener("click",()=>{
             window.location.assign("login.html")
+        })
+    })
+    document.querySelectorAll(".signupButton").forEach(button=>{
+        button.addEventListener("click",()=>{
+            window.location.assign("signup.html")
         })
     })
 </script>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simplebase | Login</title>
+    <title>Simplebase | Signup</title>
     <link rel="shortcut icon" href="assets/logo-dark.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com/"></script>
     <link rel="stylesheet" href="style.css">
@@ -16,16 +16,18 @@
     <script src="navbar.js"></script>
     <div class="flex items-center my-40 justify-around md:flex-row flex-col">
         <div class="flex justify-center flex-col">
-            <h1 class="text-5xl font-bold my-2">Welcome</h1>
-            <span class="text-5xl text-center md:text-start font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#2FAC77] to-[#1B6646]">Back</span>
+            <h1 class="text-5xl font-bold my-2">Welcome lets</h1>
+            <span class="text-5xl text-center md:text-start font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#2FAC77] to-[#1B6646]">create</span>
+            <h1 class="text-5xl font-bold my-2">an accout</h1>
         </div>
         <div class="bg-neutral-800 rounded-lg flex flex-col w-fit h-max p-10 m-5 space-y-3">
-            <h1 class="text-4xl font-bold text-center my-5">Sign in</h1>
+            <h1 class="text-4xl font-bold text-center my-5">Sign up</h1>
             <input type="text" class="m-2 px-8 py-3 rounded text-black" placeholder="Username" id="username">
             <input type="password" class="m-2 px-8 py-3 rounded text-black" placeholder="Password" id="pass">
-            <button id="loginBtn" class="p-5 bg-[#2FAC77] hover:bg-[#1B6646] transition duration-200 rounded-lg flex justify-center items-center">Login</button>
+            <button id="loginBtn"
+                class="p-5 bg-[#2FAC77] hover:bg-[#1B6646] transition duration-200 rounded-lg flex justify-center items-center">Sign up</button>
             <p id="errmsg" class="text-center text-red-600 hidden">Thats not right.. Try refreshing</p>
-            <a href="signup.html" class="text-center hover:text-gray-300">Dont have an account? Create one today!</a>
+            <a href="login.html" class="text-center hover:text-gray-300">Already have an account? Login</a>
         </div>
     </div>
 </body>
@@ -52,7 +54,7 @@
     var errmsg = document.querySelector("#errmsg")
     var pass = document.querySelector("#pass")
     //reg click
-    loginBtn.addEventListener("click",()=>{
+    loginBtn.addEventListener("click", () => {
         //reset
         errmsg.classList.add("hidden")
         username.classList.remove("border-red-600")
@@ -60,47 +62,47 @@
         pass.classList.remove("border-red-600")
         pass.classList.remove("border-2")
         //visualize loading
-        loginBtn.innerHTML=`<svg class="spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        loginBtn.innerHTML = `<svg class="spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>`
-        fetch('https://api.simplebase.ga/auth/login', {
+        fetch('https://api.simplebase.ga/auth/signup', {
             method: 'POST', // or 'PUT'
             credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({username:username.value,password:pass.value}),
+            body: JSON.stringify({ username: username.value, password: pass.value }),
         }).then((response) => response.json()).then(data => {
-                loginBtn.innerHTML="Login"
-                if(data.success==true){
-                    loginBtn.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            loginBtn.innerHTML = "Sign up"
+            if (data.success == true) {
+                loginBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>`
-                    fetch("https://api.simplebase.ga/auth/user",{
-                        method: 'GET',
-                        credentials: "include",
-                    }).then((res) => res.json()).then(userData=>{
-                        window.location.assign("index.html")
-                    })
-                }else{
-                    errmsg.classList.remove("hidden")
-                    username.classList.add("border-red-600")
-                    username.classList.add("border-2")
-                    pass.classList.add("border-red-600")
-                    pass.classList.add("border-2")
-                    errmsg.textContent=data.msg
-                }
-            })
+                fetch("https://api.simplebase.ga/auth/user", {
+                    method: 'GET',
+                    credentials: "include",
+                }).then((res) => res.json()).then(userData => {
+                    window.location.assign("login.html")
+                })
+            } else {
+                errmsg.classList.remove("hidden")
+                username.classList.add("border-red-600")
+                username.classList.add("border-2")
+                pass.classList.add("border-red-600")
+                pass.classList.add("border-2")
+                errmsg.textContent = data.msg
+            }
+        })
             .catch((error) => {
                 console.error('Error:', error);
                 errmsg.classList.remove("hidden")
-                loginBtn.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                loginBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
 </svg>
 `
-                errmsg.textContent = "Uh oh this isn't normal: "+ error
+                errmsg.textContent = "Uh oh this isn't normal: " + error
             });
     })
 </script>
