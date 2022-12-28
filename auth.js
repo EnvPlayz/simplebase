@@ -16,9 +16,9 @@ function logout(){
         credentials: "include",
     }).then((res) => {
         if (res.status == 200) {
-            _authStat = true
+            window.location.reload()
         } else {
-            _authStat = false
+            console.error("Something went wrong.");
         }
-    }).catch(function () { return false })
+    }).catch(console.error)
 }
