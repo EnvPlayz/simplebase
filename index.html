@@ -42,7 +42,13 @@
     })
     document.querySelectorAll(".signupButton").forEach(button=>{
         button.addEventListener("click",()=>{
-            window.location.assign("signup.html")
+            isAuthenticated().then(res=>{
+                if(res==true){
+                    window.location.assign("databases.html")
+                }else{
+                    window.location.assign("signup.html")
+                }
+            })
         })
     })
 </script>

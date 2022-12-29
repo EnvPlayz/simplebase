@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplebase | Signup</title>
+    <link rel="shortcut icon" href="assets/logo-dark.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class=" bg-neutral-900 text-white">
+    <script src="auth.js"></script>
+    <script src="navbar.js"></script>
+    <div class="normalView">
+        <h1 class="text-center m-5 text-2xl">Hey <span class="text-[#2FAC77] usernameFillout">user</span>, let's get developing</h1>
+        <h1 class="text-center m-5 text-4xl">Your databases</h1>
+        <div class="flex-wrap flex items-center m-10 flex-row justify-center">
+            <div class="dbGrid flex-wrap flex items-center md:flex-row  justify-center">
+                <div class="bg-neutral-800 py-20 px-28 rounded-lg m-5">Project</div>
+            </div>
+            <div
+                class="createDb hidden border-neutral-800 border-4 py-20 px-32 rounded-lg hover:bg-neutral-800 hover:cursor-pointer transition duration-200 mx-5">
+                <svg width="33" height="33" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M33 23V43M43 33H23M63 33C63 36.9397 62.224 40.8407 60.7164 44.4805C59.2087 48.1203 56.999 51.4274 54.2132 54.2132C51.4274 56.999 48.1203 59.2087 44.4805 60.7164C40.8407 62.224 36.9397 63 33 63C29.0603 63 25.1593 62.224 21.5195 60.7164C17.8797 59.2087 14.5726 56.999 11.7868 54.2132C9.00104 51.4274 6.79125 48.1203 5.28361 44.4805C3.77597 40.8407 3 36.9397 3 33C3 25.0435 6.1607 17.4129 11.7868 11.7868C17.4129 6.16071 25.0435 3 33 3C40.9565 3 48.5871 6.16071 54.2132 11.7868C59.8393 17.4129 63 25.0435 63 33Z"
+                        stroke="#242323" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="createDatabaseView hidden">
+        <h1 class="text-center m-12 text-4xl">Create a new database</h1>
+        <div class="flex items-center m-40 flex-col justify-center">
+            <input class="py-5 px-20 text-center text-white bg-neutral-800 rounded-lg hover:border-neutral-800 border-2 border-transparent transition duration-200" placeholder="Your database name" type="text" id="createDbInp">
+            <button class="createDb border-2 border-neutral-800 py-5 px-40 my-5 rounded-lg hover:bg-neutral-800 transition duration-200">Create</button>
+            <p class="errmsg hidden text-red-600">Error</p>
+        </div>
+    </div>
+</body>
+<script defer>
+    // why are you reading this code dont try to tamper with it or else you might jsut get a smol lil hardware ban :D
+    const mobileIcon = document.querySelector(".mobile-menu-icon")
+    const menu = document.querySelector(".mobile-menu")
+    mobileIcon.addEventListener("click", function () {
+        menu.classList.toggle("hidden")
+    })
+    document.querySelectorAll(".loginButton").forEach(button => {
+        button.addEventListener("click", () => {
+            window.location.assign("login.html")
+        })
+    })
+    isAuthenticated().then(res => {
+        if (res != true) {
+            window.location.assign("index.html")
+        }
+    })
+    authData().then(authDta=>{
+        if(authDta!=false){
+            document.querySelector('.usernameFillout').textContent=authDta.username
+        }
+    })
+    function createErr(msg){
+        document.querySelector('.errmsg').classList.remove("hidden")
+        document.querySelector('.errmsg').innerHTML = msg
+        document.querySelector(".createDatabaseView .createDb").innerHTML = "Create"
+    }
+    var allowedSvg = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /</svg>`
+    var loadingSvg=`<svg class="w-10 h-10 spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>`
+    document.querySelector(".normalView .createDb").addEventListener("click",()=>{
+        document.querySelector(".normalView").classList.add("hidden")
+        document.querySelector(".createDatabaseView").classList.remove("hidden")
+    })
+    document.querySelector(".createDatabaseView .createDb").addEventListener("click", () => {
+        document.querySelector('.errmsg').classList.add("hidden")
+        document.querySelector(".createDatabaseView .createDb").innerHTML=loadingSvg
+        var createNameInp = document.querySelector("#createDbInp")
+        document.querySelector('.errmsg').classList.add("hidden")
+        fetch("https://api.simplebase.ga/databases/create", {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"name": createNameInp.value}),
+        }).then((res) => {
+            if (res.status == 200) {
+                res.json().then(dbData=>{
+                    document.querySelector(".createDatabaseView .createDb").innerHTML=allowedSvg
+                    window.location.reload()
+                })
+            } else {
+                res.json().then(function (err) {
+                    console.error("Something went wrong.");
+                    createErr("Something went wrong. " + err.msg)
+                })
+            }
+        }).catch(createErr)
+    })
+    document.querySelector('.dbGrid').innerHTML=loadingSvg
+        fetch("https://api.simplebase.ga/databases/get", {
+            method: 'GET',
+        credentials: "include",
+    }).then((res) => {
+        if (res.status == 200) {
+            document.querySelector('.dbGrid').innerHTML=""
+            document.querySelector('.createDb').classList.remove("hidden")
+            res.json().then(dbs=>{
+                for (var db in dbs.databases) {
+                    document.querySelector('.dbGrid').innerHTML += `<div class="bg-neutral-800 py-20 px-28 rounded-lg m-5">${db}</div>`
+                }
+            })
+            } else {
+                res.json().then(function (err) {
+                    console.error("Something went wrong.");
+                    document.querySelector('.dbGrid').innerHTML = "Something went wrong. "
+                })
+            }
+        }).catch(console.error)
+</script>
+
+</html>
+<!-- green-effect: #2FAC77 -->
+<!-- background-shade: bg-neutral-900 -->
+<!-- light-shade: bg-neutral-800 -->

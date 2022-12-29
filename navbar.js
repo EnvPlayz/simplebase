@@ -9,7 +9,7 @@
                     </div>
                     <div class="navlinks hidden md:flex items-center space-x-5">
                     <a href="#" class="hover:text-[#2FAC77] transition duration-200">Documentation</a>
-                    <a href="#" class="hover:text-[#2FAC77] transition duration-200">Databases</a>
+                    <a href="databases.html" class="hover:text-[#2FAC77] transition duration-200">Databases</a>
                     </div>
                     <div class="buttons hidden md:flex items-center justify-center space-x-2">
                     <button class="loginButton border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Sign in</button>
@@ -26,7 +26,7 @@
     <div class="md:hidden mobile-menu">
     <a href="login.html" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Sign in</a>
         <a href="#" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Documentation</a>
-        <a href="#" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Databases</a>
+        <a href="databases.html" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Databases</a>
         </div>
         </nav>`
         document.body.innerHTML=nav
