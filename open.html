@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplebase | Database</title>
+    <link rel="shortcut icon" href="assets/logo-dark.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class=" bg-neutral-900 text-white h-screen">
+    <script src="auth.js"></script>
+    <script src="navbar.js"></script>
+    <div class="normalView h-screen">
+        <h1 class="text-center m-5 text-1xl">Hey <span class="text-[#2FAC77] usernameFillout">user</span>, let's get
+            developing
+            <button onclick="logout()"class="border-2 border-neutral-800 py-2 px-5 my-5 rounded-lg hover:bg-neutral-800 transition duration-200">Logout</button>
+        </h1>
+        <h1 class="text-center m-5 text-2xl hidden dbName">Database: <span class="text-[#2FAC77] dbFillout">Database</span></h1>
+        <div class="dbData flex items-center justify-center h-60 flex-col h-full">
+            <div class="loadingDiv"></div>
+            <div id="dbIdDiv" class="bg-neutral-800 rounded-lg p-10 m-5 hidden">Database id: <span class="text-[#2FAC77] dbIdFillout">Id</span></div>
+            <div id="errmsgDiv" class="bg-neutral-800 rounded-lg p-10 m-5 text-red-600 text-2xl hidden">Cannot find database.</div>
+            <div id="dbDataDiv" class="bg-neutral-800 rounded-lg p-10 m-5 hidden h-max" style="white-space:pre">Data</div>
+            <div class="listening hidden bg-neutral-800 rounded-lg p-2 m-5 h-max flex items-center" style="white-space:pre">
+                <h1 class="text-lg text-center m-2 ">Listening for changes</h1>
+                <svg class="w-6 h-6 spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+            </div>
+            
+        </div>
+</body>
+<script defer>
+    const mobileIcon = document.querySelector(".mobile-menu-icon")
+    const menu = document.querySelector(".mobile-menu")
+    mobileIcon.addEventListener("click", function () {
+        menu.classList.toggle("hidden")
+    })
+    var allowedSvg = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /</svg>`
+    var loadingSvg = `<svg class="w-10 h-10 spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>`
+    var dbName = new URLSearchParams(window.location.search).get("db")
+    isAuthenticated().then(res => {
+        if (res != true) {
+            window.location.assign("index.html")
+        }
+    })
+    authData().then(authDta => {
+        if (authDta != false) {
+            document.querySelector('.usernameFillout').textContent = authDta.username
+            document.querySelector('.dbFillout').textContent = dbName
+        }
+    })
+    document.querySelector(".loadingDiv").innerHTML=loadingSvg
+    function updateVisual(dbs){
+        var dbData = dbs.databases[dbName]
+        document.querySelector('#dbIdDiv').classList.remove("hidden")
+        document.querySelector('#dbDataDiv').classList.remove("hidden")
+        var dbFormatted = JSON.stringify(dbData.data, null, "\t");
+        document.querySelector('#dbDataDiv').textContent = dbFormatted
+        document.querySelector(".dbIdFillout").innerHTML = dbData.id
+        updateDb()
+    }
+    updateDb()
+    function updateDb(){
+        fetch("https://api.simplebase.ga/databases/get", {
+            method: 'GET',
+            credentials: "include",
+        }).then((res) => {
+            if (res.status == 200) {
+                res.json().then(dbs => {
+                    document.querySelector('.listening').classList.remove("hidden")
+                    document.querySelector('.dbName').classList.remove("hidden")
+                    document.querySelector(".loadingDiv").innerHTML=""
+                    if(dbName in dbs.databases){
+                        updateVisual(dbs)
+                    }else{
+                        document.querySelector('#errmsgDiv').classList.remove("hidden")
+                    }
+                })
+            } else {
+                res.json().then(function (err) {
+                    console.error("Something went wrong.");
+                })
+            }
+        }).catch(console.error)
+    }
+</script>
+
+</html>
+<!-- green-effect: #2FAC77 -->
+<!-- background-shade: bg-neutral-900 -->
+<!-- light-shade: bg-neutral-800 -->

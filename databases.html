@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simplebase | Signup</title>
+    <title>Simplebase | Databases</title>
     <link rel="shortcut icon" href="assets/logo-dark.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com/"></script>
     <link rel="stylesheet" href="style.css">
@@ -15,11 +15,12 @@
     <script src="auth.js"></script>
     <script src="navbar.js"></script>
     <div class="normalView">
-        <h1 class="text-center m-5 text-2xl">Hey <span class="text-[#2FAC77] usernameFillout">user</span>, let's get developing</h1>
+        <h1 class="text-center m-5 text-2xl">Hey <span class="text-[#2FAC77] usernameFillout">user</span>, let's get developing
+        <button onclick="logout()" class="border-2 border-neutral-800 py-2 px-5 my-5 rounded-lg hover:bg-neutral-800 transition duration-200">Logout</button></h1>
         <h1 class="text-center m-5 text-4xl">Your databases</h1>
         <div class="flex-wrap flex items-center m-10 flex-row justify-center">
             <div class="dbGrid flex-wrap flex items-center md:flex-row  justify-center">
-                <div class="bg-neutral-800 py-20 px-28 rounded-lg m-5">Project</div>
+                <!-- <div class="bg-neutral-800 py-20 px-28 rounded-lg m-5">Project</div> -->
             </div>
             <div
                 class="createDb hidden border-neutral-800 border-4 py-20 px-32 rounded-lg hover:bg-neutral-800 hover:cursor-pointer transition duration-200 mx-5">
@@ -54,7 +55,7 @@
     })
     isAuthenticated().then(res => {
         if (res != true) {
-            window.location.assign("index.html")
+            window.location.assign("login.html?redirect_url=databases.html")
         }
     })
     authData().then(authDta=>{
@@ -110,7 +111,7 @@
             document.querySelector('.createDb').classList.remove("hidden")
             res.json().then(dbs=>{
                 for (var db in dbs.databases) {
-                    document.querySelector('.dbGrid').innerHTML += `<div class="bg-neutral-800 py-20 px-28 rounded-lg m-5">${db}</div>`
+                    document.querySelector('.dbGrid').innerHTML += `<div onclick="openDb('${db}')" class="cursor-pointer bg-neutral-800 py-20 px-28 rounded-lg m-5">${db}</div>`
                 }
             })
             } else {
@@ -120,8 +121,10 @@
                 })
             }
         }).catch(console.error)
+        function openDb(db){
+            window.location.assign("open.html?db="+db)
+        }
 </script>
-
 </html>
 <!-- green-effect: #2FAC77 -->
 <!-- background-shade: bg-neutral-900 -->

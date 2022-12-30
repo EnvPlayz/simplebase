@@ -4,7 +4,7 @@
         <div class="logo">
             <a href="index.html" class="flex items-center">
                 <img src="assets/logo.png" class="w-[50px] h-[50px]">
-                    <p class="font-bold">simplebase</p>
+                    <p class="font-bold hover:scale-[1.1] transition duration-200">simplebase</p>
                     </a>
                     </div>
                     <div class="navlinks hidden md:flex items-center space-x-5">
@@ -13,7 +13,7 @@
                     </div>
                     <div class="buttons hidden md:flex items-center justify-center space-x-2">
                     <button class="loginButton border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Sign in</button>
-                    <button class="signupButton p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
+                    <button id="navStartcreating" class="p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
                     </div>
                     <div class="md:hidden flex items-center mobile-menu-icon">
                     <button><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -31,3 +31,19 @@
         </nav>`
         document.body.innerHTML=nav
         document.body.innerHTML+=tempHtml
+        isAuthenticated().then(loggedin=>{
+            if(loggedin==true){
+                document.getElementById("navStartcreating").onclick = function () {
+                    window.location.assign("databases.html")
+                }
+            }else{
+                document.getElementById("navStartcreating").onclick = function () {
+                    window.location.assign("signup.html")
+                }
+            }
+        })
+document.querySelectorAll(".loginButton").forEach(button => {
+    button.addEventListener("click", () => {
+        window.location.assign("login.html")
+    })
+})

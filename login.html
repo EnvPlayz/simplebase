@@ -25,7 +25,7 @@
             <input type="password" class="m-2 px-8 py-3 rounded text-black" placeholder="Password" id="pass">
             <button id="loginBtn" class="p-5 bg-[#2FAC77] hover:bg-[#1B6646] transition duration-200 rounded-lg flex justify-center items-center">Login</button>
             <p id="errmsg" class="text-center text-red-600 hidden">Thats not right.. Try refreshing</p>
-            <a href="signup.html" class="text-center hover:text-gray-300">Dont have an account? Create one today!</a>
+            <a href="signup.html" id="signAcc" class="text-center hover:text-gray-300">Dont have an account? Create one today!</a>
         </div>
     </div>
 </body>
@@ -47,10 +47,12 @@
         }
     })
     // variables
+    var red_url = new URLSearchParams(window.location.search).get("redirect_url")
     var loginBtn = document.querySelector('#loginBtn')
     var username = document.querySelector("#username")
     var errmsg = document.querySelector("#errmsg")
     var pass = document.querySelector("#pass")
+    document.querySelector('#signAcc').href="signup.html?redirect_url="+red_url
     //reg click
     loginBtn.addEventListener("click",()=>{
         //reset
@@ -82,7 +84,11 @@
                         method: 'GET',
                         credentials: "include",
                     }).then((res) => res.json()).then(userData=>{
-                        window.location.assign("index.html")
+                        if(red_url){
+                            window.location.assign(red_url)
+                        }else{
+                            window.location.assign("index.html")
+                        }
                     })
                 }else{
                     errmsg.classList.remove("hidden")

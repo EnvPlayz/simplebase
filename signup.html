@@ -27,7 +27,7 @@
             <button id="loginBtn"
                 class="p-5 bg-[#2FAC77] hover:bg-[#1B6646] transition duration-200 rounded-lg flex justify-center items-center">Sign up</button>
             <p id="errmsg" class="text-center text-red-600 hidden">Thats not right.. Try refreshing</p>
-            <a href="login.html" class="text-center hover:text-gray-300">Already have an account? Login</a>
+            <a href="login.html" id="signAcc" class="text-center hover:text-gray-300">Already have an account? Login</a>
         </div>
     </div>
 </body>
@@ -49,6 +49,8 @@
         }
     })
     // variables
+    var red_url = new URLSearchParams(window.location.search).get("redirect_url")
+    document.querySelector('#signAcc').href = "login.html?redirect_url=" + red_url
     var loginBtn = document.querySelector('#loginBtn')
     var username = document.querySelector("#username")
     var errmsg = document.querySelector("#errmsg")
@@ -84,7 +86,11 @@
                     method: 'GET',
                     credentials: "include",
                 }).then((res) => res.json()).then(userData => {
-                    window.location.assign("login.html")
+                    if (red_url) {
+                        window.location.assign("login.html?redirect_url="+red_url)
+                    } else {
+                        window.location.assign("login.html")
+                    }
                 })
             } else {
                 errmsg.classList.remove("hidden")
