@@ -23,7 +23,7 @@
                 <!-- <div class="bg-neutral-800 py-20 px-28 rounded-lg m-5">Project</div> -->
             </div>
             <div
-                class="createDb hidden border-neutral-800 border-4 py-20 px-32 rounded-lg hover:bg-neutral-800 hover:cursor-pointer transition duration-200 mx-5">
+                class="createDb hidden ring-neutral-800 ring-4 ring-inset py-16 px-28 rounded-lg hover:bg-neutral-800 hover:cursor-pointer transition duration-200 mx-5">
                 <svg width="33" height="33" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M33 23V43M43 33H23M63 33C63 36.9397 62.224 40.8407 60.7164 44.4805C59.2087 48.1203 56.999 51.4274 54.2132 54.2132C51.4274 56.999 48.1203 59.2087 44.4805 60.7164C40.8407 62.224 36.9397 63 33 63C29.0603 63 25.1593 62.224 21.5195 60.7164C17.8797 59.2087 14.5726 56.999 11.7868 54.2132C9.00104 51.4274 6.79125 48.1203 5.28361 44.4805C3.77597 40.8407 3 36.9397 3 33C3 25.0435 6.1607 17.4129 11.7868 11.7868C17.4129 6.16071 25.0435 3 33 3C40.9565 3 48.5871 6.16071 54.2132 11.7868C59.8393 17.4129 63 25.0435 63 33Z"
@@ -111,7 +111,7 @@
             document.querySelector('.createDb').classList.remove("hidden")
             res.json().then(dbs=>{
                 for (var db in dbs.databases) {
-                    document.querySelector('.dbGrid').innerHTML += `<div onclick="openDb('${db}')" class="cursor-pointer bg-neutral-800 py-20 px-28 rounded-lg m-5">${db}</div>`
+                    document.querySelector('.dbGrid').innerHTML += `<div onclick="openDb('${db}')" class="cursor-pointer bg-neutral-800 py-16 px-28 rounded-lg m-5">${db}</div>`
                 }
             })
             } else {

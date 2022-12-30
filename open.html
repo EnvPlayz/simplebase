@@ -9,33 +9,90 @@
     <link rel="shortcut icon" href="assets/logo-dark.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com/"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 </head>
 
 <body class=" bg-neutral-900 text-white h-screen">
     <script src="auth.js"></script>
     <script src="navbar.js"></script>
+    <div modal-register="deleteRefModal" class="fixed top-0 z-10 flex items-center justify-center pointer-events-none hidden transition duration-200 h-screen w-screen">
+        <div class="modalContent z-50 hidden bg-neutral-900 border-2 border-neutral-700 rounded-lg px-20 py-10 h-fit w-fit flex flex-col">
+            <div class="content">
+                <h1 class="text-xl text-center font-bold">Delete a reference</h1>
+                <input
+                    class="py-2 px-5 m-5 text-center text-white bg-neutral-800 rounded-lg hover:border-neutral-800 border-2 border-transparent transition duration-200"
+                    placeholder="Reference (users/admin)" type="text" id="refInp">
+                <button id="refDeleteBtn" onclick="deleteRef()"
+                    class="py-2 px-4 border-2 border-red-500 hover:bg-red-500 hover:text-white text-red-400 transition duration-200 rounded-lg">Delete</button>
+                <p class="text-neutral-600 text-center">(Click outside to cancel)</p>
+                </div>
+        </div>
+    </div>
+    <div modal-register="updateRefModal" class="fixed top-0 z-10 flex items-center justify-center pointer-events-none hidden transition duration-200 h-screen w-screen">
+        <div class="modalContent z-50 hidden bg-neutral-900 border-2 border-neutral-700 rounded-lg px-20 py-10 h-fit w-fit flex flex-col">
+            <div class="content flex items-center flex-col">
+                <h1 class="text-xl text-center font-bold">Update a reference</h1>
+                <input
+                    class="py-2 px-5 m-5 text-center text-white bg-neutral-800 rounded-lg hover:border-neutral-800 border-2 border-transparent transition duration-200"
+                    placeholder="Reference (users/admin/username)" type="text" id="updInp">
+                <textarea rows="8"
+                    class="w-fit py-2 px-5 m-5 text-white bg-neutral-800 rounded-lg hover:border-neutral-800 border-2 border-transparent transition duration-200"
+                    placeholder="Data (Enter vaild json {username: 'admin2'})" type="text" id="updDataInp"></textarea>
+                <button id="refUpdBtn" onclick="updateRef()"
+                    class="py-2 px-4 border-2 border-neutral-800 hover:bg-neutral-800 hover:text-white transition duration-200 rounded-lg">Update</button>
+                <p class="text-neutral-600 text-center">(Click outside to cancel)</p>
+                </div>
+        </div>
+    </div>
     <div class="normalView h-screen">
-        <h1 class="text-center m-5 text-1xl">Hey <span class="text-[#2FAC77] usernameFillout">user</span>, let's get
+        <h1 class="text-center m-1 text-1xl">Hey <span class="text-[#2FAC77] usernameFillout">user</span>, let's get
             developing
-            <button onclick="logout()"class="border-2 border-neutral-800 py-2 px-5 my-5 rounded-lg hover:bg-neutral-800 transition duration-200">Logout</button>
+            <button onclick="logout()"class="border-2 border-neutral-800 py-2 px-5 my-2 rounded-lg hover:bg-neutral-800 transition duration-200">Logout</button>
         </h1>
-        <h1 class="text-center m-5 text-2xl hidden dbName">Database: <span class="text-[#2FAC77] dbFillout">Database</span></h1>
-        <div class="dbData flex items-center justify-center h-60 flex-col h-full">
+        <div class="bg-neutral-800 p-3 m-2 flex items-center space-x-2 justify-center rounded-lg">
+            <button open-modal="updateRefModal" class="flex items-center py-3 px-5 m-1 border-2 border-neutral-900 rounded-lg hover:bg-neutral-900 transition duration-200">Update
+                <div class="ml-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path
+                            d="M5.433 13.917l1.262-3.155A4 4 0 017.58 9.42l6.92-6.918a2.121 2.121 0 013 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 01-.65-.65z" />
+                        <path
+                            d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0010 3H4.75A2.75 2.75 0 002 5.75v9.5A2.75 2.75 0 004.75 18h9.5A2.75 2.75 0 0017 15.25V10a.75.75 0 00-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z" />
+                    </svg>
+                </div>
+            </button>
+            <button open-modal="deleteRefModal" class="flex items-center py-3 px-5 m-1 border-2 border-neutral-900 rounded-lg hover:bg-neutral-900 transition duration-200">Delete
+                <div class="ml-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd"
+                            d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </button>
+        </div>
+        <h1 class="text-center m-1 text-lg hidden dbName">Database: <span class="text-[#2FAC77] dbFillout"></span>
+            <h1 class="text-center">Id:<span class="dbIdFillout text-[#2FAC77]"></span></h1>
+        </h1>
+        <div class="dbData flex items-center justify-center flex-col">
             <div class="loadingDiv"></div>
-            <div id="dbIdDiv" class="bg-neutral-800 rounded-lg p-10 m-5 hidden">Database id: <span class="text-[#2FAC77] dbIdFillout">Id</span></div>
-            <div id="errmsgDiv" class="bg-neutral-800 rounded-lg p-10 m-5 text-red-600 text-2xl hidden">Cannot find database.</div>
-            <div id="dbDataDiv" class="bg-neutral-800 rounded-lg p-10 m-5 hidden h-max" style="white-space:pre">Data</div>
-            <div class="listening hidden bg-neutral-800 rounded-lg p-2 m-5 h-max flex items-center" style="white-space:pre">
-                <h1 class="text-lg text-center m-2 ">Listening for changes</h1>
+            <!-- <div id="dbIdDiv" class="bg-neutral-800 rounded-lg p-3 m-1 hidden">Database id: <span class="text-[#2FAC77] dbIdFillout">Id</span></div> -->
+            <div class="listening hidden bg-neutral-800 rounded-lg p-2 m-1 flex items-center" style="white-space:pre">
+                <h1 class="text-center m-2">Listening for changes</h1>
                 <svg class="w-6 h-6 spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
             </div>
-            
+            <div id="errmsgDiv" class="bg-neutral-800 rounded-lg p-10 m-5 text-red-600 text-2xl hidden">Cannot find database.</div>
+            <pre>
+                <code id="dbDataDiv" class="bg-neutral-800 rounded-lg p-10 m-5 hidden h-max language-json" style="white-space:pre">Data</code>
+            </pre>
         </div>
 </body>
+<script src="helper.js"></script>
+<script src="modal.js"></script>
 <script defer>
     const mobileIcon = document.querySelector(".mobile-menu-icon")
     const menu = document.querySelector(".mobile-menu")
@@ -45,9 +102,76 @@
     var allowedSvg = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /</svg>`
     var loadingSvg = `<svg class="w-10 h-10 spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>`
     var dbName = new URLSearchParams(window.location.search).get("db")
+    var deleteBtn = document.querySelector("#deleteBtn")
+    var deleteBtn = document.querySelector("#deleteBtn")
+    function deleteRef(){
+        var refInp = $i("refInp")
+        if(refInp.value.trim().length<1){
+            alert("Enter a vaild reference to delete.")
+            return false
+        }
+        var shouldDelete = confirm("Are you sure you want to delete '"+refInp.value+"' (This is not undoable)")
+        if(shouldDelete){
+            fetch("https://api.simplebase.ga/databases/delete?db="+dbName, {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "ref": refInp.value
+                }),
+            }).then((res) => {
+                if (res.status == 200) {
+                    alert("Successfully deleted '"+refInp.value+"'")
+                } else {
+                    res.json().then(function (err) {
+                        alert("Something went wrong. "+err.msg);
+                    })
+                }
+            }).catch(alert)
+        }
+    }
+    function updateRef(){
+        var updInp = $i("updInp")
+        var updDataInp = $i("updDataInp")
+        if(updInp.value.trim().length<1|| updDataInp.value.trim().length<1){
+            alert("Enter vaild fields to update.")
+            return false
+        }
+        try {
+            var parsedJSON = JSON.parse(updDataInp.value)
+            // var dataToSend = JSON.stringify(parsedJSON)
+            fetch("https://api.simplebase.ga/databases/update?db=" + dbName, {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "ref": updInp.value,
+                    "data": parsedJSON
+                }),
+            }).then((res) => {
+                if (res.status == 200) {
+                    alert("Successfully updated")
+                    closeModal("updateRefModal")
+                } else {
+                    res.json().then(function (err) {
+                        alert("Something went wrong. " + err.msg);
+                    })
+                }
+            }).catch(alert)
+        } catch (error) {
+            alert("JSON not vaild")
+        }
+    }
+    $i("refDeleteBtn").addEventListener("click",function(){
+        closeModal("deleteRefModal")
+    })
     isAuthenticated().then(res => {
         if (res != true) {
-            window.location.assign("index.html")
+            window.location.assign("login.html?redirect_url=open.html?db="+dbName)
         }
     })
     authData().then(authDta => {
@@ -59,16 +183,19 @@
     document.querySelector(".loadingDiv").innerHTML=loadingSvg
     function updateVisual(dbs){
         var dbData = dbs.databases[dbName]
-        document.querySelector('#dbIdDiv').classList.remove("hidden")
+        // document.querySelector('#dbIdDiv').classList.remove("hidden")
         document.querySelector('#dbDataDiv').classList.remove("hidden")
         var dbFormatted = JSON.stringify(dbData.data, null, "\t");
         document.querySelector('#dbDataDiv').textContent = dbFormatted
         document.querySelector(".dbIdFillout").innerHTML = dbData.id
-        updateDb()
+        hljs.highlightAll()
+        setTimeout(() => {
+            updateDb()
+        }, 1000);
     }
     updateDb()
     function updateDb(){
-        fetch("https://api.simplebase.ga/databases/get", {
+        fetch("https://api.simplebase.ga/databases/get?for=realtime", {
             method: 'GET',
             credentials: "include",
         }).then((res) => {
@@ -81,6 +208,7 @@
                         updateVisual(dbs)
                     }else{
                         document.querySelector('#errmsgDiv').classList.remove("hidden")
+                        window.location.assign("databases.html")
                     }
                 })
             } else {
