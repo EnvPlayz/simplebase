@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css">
 </head>
 
 <body class=" bg-neutral-900 text-white h-screen">
@@ -107,36 +109,62 @@
     function deleteRef(){
         var refInp = $i("refInp")
         if(refInp.value.trim().length<1){
-            alert("Enter a vaild reference to delete.")
+            Swal.fire({
+                icon: 'error',
+                title: 'Hey',
+                text: 'Enter a vaild reference to delete',
+            })
             return false
         }
-        var shouldDelete = confirm("Are you sure you want to delete '"+refInp.value+"' (This is not undoable)")
-        if(shouldDelete){
-            fetch("https://api.simplebase.ga/databases/delete?db="+dbName, {
-                method: 'POST',
-                credentials: "include",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "ref": refInp.value
-                }),
-            }).then((res) => {
-                if (res.status == 200) {
-                    alert("Successfully deleted '"+refInp.value+"'")
-                } else {
-                    res.json().then(function (err) {
-                        alert("Something went wrong. "+err.msg);
-                    })
-                }
-            }).catch(alert)
-        }
+        Swal.fire({
+            title: "Confirm",
+            text: "Are you sure you want to delete '" + refInp.value +"' (This is not undoable)",
+            showCancelButton: true,
+            icon:"question",
+            confirmButtonText: 'Yes',
+            denyButtonText: `No, cancel`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch("https://api.simplebase.ga/databases/delete?db="+dbName, {
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "ref": refInp.value
+                    }),
+                }).then((res) => {
+                    if (res.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Hey',
+                            text: "Successfully deleted '" + refInp.value + "'",
+                        })
+                    } else {
+                        res.json().then(function (err) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Hey',
+                                text: 'Something went wrong. '+err.msg,
+                            })
+                        })
+                    }
+                }).catch(Swal.fire)
+            }else{
+                closeModal("deleteRefModal")
+            }
+        })
     }
     function updateRef(){
         var updInp = $i("updInp")
         var updDataInp = $i("updDataInp")
         if(updInp.value.trim().length<1|| updDataInp.value.trim().length<1){
-            alert("Enter vaild fields to update.")
+            Swal.fire({
+                icon: 'error',
+                title: 'Hey',
+                text: 'Enter vaild fields to update.'
+            })
             return false
         }
         try {
@@ -154,16 +182,28 @@
                 }),
             }).then((res) => {
                 if (res.status == 200) {
-                    alert("Successfully updated")
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Hey',
+                        text: 'Successfully updated',
+                    })
                     closeModal("updateRefModal")
                 } else {
                     res.json().then(function (err) {
-                        alert("Something went wrong. " + err.msg);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hey',
+                            text: 'Something went wrong. ' + err.msg,
+                        })
                     })
                 }
-            }).catch(alert)
+            }).catch(Swal.fire)
         } catch (error) {
-            alert("JSON not vaild")
+            Swal.fire({
+                icon: 'error',
+                title: 'Hey',
+                text: 'JSON is not vaild.',
+            })
         }
     }
     $i("refDeleteBtn").addEventListener("click",function(){
