@@ -47,13 +47,29 @@
                 </div>
         </div>
     </div>
-    <div class="normalView h-screen">
-        <h1 class="text-center m-1 text-1xl">Hey <span class="text-[#2FAC77] usernameFillout">user</span>, let's get
+    <div class="normalView h-screen flex flex-col items-center">
+        <h1 class="text-center text-1xl">Hey <span class="text-[#2FAC77] usernameFillout">user</span>, let's get
             developing
-            <button onclick="logout()"class="border-2 border-neutral-800 py-2 px-5 my-2 rounded-lg hover:bg-neutral-800 transition duration-200">Logout</button>
+            <button onclick="logout()"class="border-2 border-neutral-800 py-2 px-5 my-1 rounded-lg hover:bg-neutral-800 transition duration-200">Logout</button>
         </h1>
-        <div class="bg-neutral-800 p-3 m-2 flex items-center space-x-2 justify-center rounded-lg">
-            <button open-modal="updateRefModal" class="flex items-center py-3 px-5 m-1 border-2 border-neutral-900 rounded-lg hover:bg-neutral-900 transition duration-200">Update
+        <span class="text-[#2FAC77] dbFillout font-bold text-5xl m-5 text-center"></span>
+        <div class="bg-neutral-800 px-5 py-2 m-1 rounded-lg flex items-center justify-center flex-col">
+            <p class="text-md m-1">Your database access key</p>
+            <div class="flex items-center justify-center flex-row">
+                <input type="text" id="accessKeyInp" class="bg-neutral-900 px-2 py-1 rounded-lg text-center text-[#2FAC77] h-fit w-full" readonly
+                    value="xxxxxxxxx-xxxxxxxxx-xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                <button onclick="this.innerHTML=allowedSvg;navigator.clipboard.writeText(document.getElementById('accessKeyInp')._e_)" class="p-2 m-1 hover:bg-neutral-900 rounded-lg border-2 border-neutral-900 transition duration-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                        class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-red-600 text-md">Never share this key with anyone.</p>
+        </div>
+        <div class="p-3 flex items-center space-x-2 justify-center rounded-lg">
+            <button open-modal="updateRefModal" class="flex items-center py-3 px-5 m-1 border-2 border-neutral-800 rounded-lg hover:bg-neutral-800 transition duration-200">Update
                 <div class="ml-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                         <path
@@ -63,7 +79,7 @@
                     </svg>
                 </div>
             </button>
-            <button open-modal="deleteRefModal" class="flex items-center py-3 px-5 m-1 border-2 border-neutral-900 rounded-lg hover:bg-neutral-900 transition duration-200">Delete
+            <button open-modal="deleteRefModal" class="flex items-center py-3 px-5 m-1 border-2 border-neutral-800 rounded-lg hover:bg-neutral-800 transition duration-200">Delete
                 <div class="ml-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                         <path fill-rule="evenodd"
@@ -73,9 +89,6 @@
                 </div>
             </button>
         </div>
-        <h1 class="text-center m-1 text-lg hidden dbName">Database: <span class="text-[#2FAC77] dbFillout"></span>
-            <h1 class="text-center">Id:<span class="dbIdFillout text-[#2FAC77]"></span></h1>
-        </h1>
         <div class="dbData flex items-center justify-center flex-col">
             <div class="loadingDiv"></div>
             <!-- <div id="dbIdDiv" class="bg-neutral-800 rounded-lg p-3 m-1 hidden">Database id: <span class="text-[#2FAC77] dbIdFillout">Id</span></div> -->
@@ -95,7 +108,7 @@
 </body>
 <script src="helper.js"></script>
 <script src="modal.js"></script>
-<script defer>
+<script>
     const mobileIcon = document.querySelector(".mobile-menu-icon")
     const menu = document.querySelector(".mobile-menu")
     mobileIcon.addEventListener("click", function () {
@@ -226,9 +239,13 @@
         // document.querySelector('#dbIdDiv').classList.remove("hidden")
         document.querySelector('#dbDataDiv').classList.remove("hidden")
         var dbFormatted = JSON.stringify(dbData.data, null, "\t");
-        document.querySelector('#dbDataDiv').textContent = dbFormatted
-        document.querySelector(".dbIdFillout").innerHTML = dbData.id
-        hljs.highlightAll()
+        if(document.querySelector('#dbDataDiv').textContent == dbFormatted){
+            console.log("same");
+        }else{
+            document.querySelector('#dbDataDiv').textContent = dbFormatted
+            hljs.highlightAll()
+        }
+        // document.querySelector(".dbIdFillout").innerHTML = dbData.id
         setTimeout(() => {
             updateDb()
         }, 1000);
@@ -241,10 +258,19 @@
         }).then((res) => {
             if (res.status == 200) {
                 res.json().then(dbs => {
-                    document.querySelector('.listening').classList.remove("hidden")
-                    document.querySelector('.dbName').classList.remove("hidden")
+                    // document.querySelector('.listening').classList.remove("hidden")
                     document.querySelector(".loadingDiv").innerHTML=""
                     if(dbName in dbs.databases){
+                        var finalstr = ""
+                        for (let index = 0; index < dbs.databases[dbName].auth.length; index++) {
+                            if(dbs.databases[dbName].auth.charAt(index)=="-"){
+                                finalstr+="-"
+                            }else{
+                                finalstr += "x"
+                            }
+                        }
+                        document.getElementById('accessKeyInp')._e_= dbs.databases[dbName].auth
+                        document.getElementById('accessKeyInp').value= dbs.databases[dbName].auth.substring(0,3)+finalstr.substring(3)
                         updateVisual(dbs)
                     }else{
                         document.querySelector('#errmsgDiv').classList.remove("hidden")

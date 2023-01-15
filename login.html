@@ -84,7 +84,7 @@
                         method: 'GET',
                         credentials: "include",
                     }).then((res) => res.json()).then(userData=>{
-                        if(red_url){
+                        if(red_url!="null"||red_url){
                             window.location.assign(red_url)
                         }else{
                             window.location.assign("index.html")
