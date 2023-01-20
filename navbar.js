@@ -3,8 +3,8 @@
     <div class="relative max-w-7xl flex items-center justify-between mx-auto">
         <div class="logo">
             <a href="index.html" class="flex items-center group transition duration-200">
-                <img src="assets/logo.png" class="w-[50px] h-[50px] group-hover:scale-[0.9]">
-                    <p class="font-bold group-hover:scale-[1.1]">simplebase</p>
+                <img src="assets/logo.png" class="w-[50px] h-[50px] group-hover:scale-[0.9] transition duration-200">
+                    <p class="font-bold group-hover:scale-[1.1] transition duration-200">simplebase</p>
                     </a>
                     </div>
                     <div class="navlinks hidden md:flex items-center space-x-5">
