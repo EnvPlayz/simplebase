@@ -79,6 +79,7 @@
         document.querySelector('.errmsg').classList.add("hidden")
         document.querySelector(".createDatabaseView .createDb").innerHTML=loadingSvg
         var createNameInp = document.querySelector("#createDbInp")
+        createNameInp.value = createNameInp.value.trim()
         document.querySelector('.errmsg').classList.add("hidden")
         fetch("https://api.simplebase.ga/databases/create", {
             method: 'POST',
@@ -86,17 +87,21 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({"name": createNameInp.value}),
+            body: JSON.stringify({"name": createNameInp.value.trim()}),
         }).then((res) => {
             if (res.status == 200) {
                 res.json().then(dbData=>{
                     document.querySelector(".createDatabaseView .createDb").innerHTML=allowedSvg
-                    window.location.reload()
+                    setTimeout(() => {
+                        document.querySelector(".createDatabaseView .createDb").innerHTML = loadingSvg
+                        window.location.assign("/open.html?db="+ createNameInp.value)
+                    }, 1000);
                 })
             } else {
                 res.json().then(function (err) {
                     console.error("Something went wrong.");
                     createErr("Something went wrong. " + err.msg)
+                    createNameInp.focus()
                 })
             }
         }).catch(createErr)

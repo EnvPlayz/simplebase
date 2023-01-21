@@ -87,9 +87,9 @@
                     credentials: "include",
                 }).then((res) => res.json()).then(userData => {
                     if (red_url) {
-                        window.location.assign("login.html?redirect_url="+red_url)
+                        window.location.assign(`login.html?prefill=${username.value}&redirect_url=${red_url}`)
                     } else {
-                        window.location.assign("login.html")
+                        window.location.assign(`login.html?prefill=${username.value}`)
                     }
                 })
             } else {
