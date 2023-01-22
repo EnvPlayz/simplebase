@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplebase</title>
+    <link rel="shortcut icon" href="assets/logo-dark.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="helper.js"></script>
+</head>
+
+<body class="bg-neutral-900 text-white">
+    <script src="auth.js"></script>
+    <script src="navbar.js"></script>
+    <div class="flex items-center my-40 mx-10 justify-around md:flex-row flex-col text-center">
+        <div class="flex justify-center flex-col">
+            <h1 class="text-4xl font-bold mx-5" id="t1">Please wait while we</h1>
+            <h1 class="text-4xl font-bold mt-2 mb-10" id="t2">Connect to <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#2FAC77] to-[#1B6646]">Simplebase</span>
+            </h1>
+            <img src="assets/undraw_maintenance.svg" id="maintainence" class="my-2 h-36">
+            <p class="flex justify-center items-center font-thin text-[#D8D8D8] my-2">
+                <p class="text-sm text-[#D8D8D8] font-thin">(We are checking our server status and verifying your client)</p>
+                <div id="st" class="flex justify-center items-center">
+                    <svg class="w-10 h-10 spin my-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                </div>
+            </p>
+        </div>
+    </div>
+</body>
+<script>
+    const mobileIcon = document.querySelector(".mobile-menu-icon")
+    const menu = document.querySelector(".mobile-menu")
+    var allowedSvg = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /</svg>`
+    var loadingSvg = `<svg class="w-10 h-10 spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>`
+    mobileIcon.addEventListener("click", function () {
+        menu.classList.toggle("hidden")
+    })
+    var usp = new URLSearchParams(window.location.search)
+    setTimeout(() => {
+        fetch("https://api.simplebase.ga/", {
+                method: 'GET',
+                credentials: "include",
+            }).then((res) => {
+                if (res.status == 200) {
+                    $i("st").innerHTML=allowedSvg
+                    $i('maintainence').src="assets/undraw_server_push.svg"
+                    $i("t1").innerHTML=""
+                    $i("t2").innerHTML="Proceeding now..."
+                    window.sessionStorage.setItem("served",true)
+                    setTimeout(() => {
+                        if(usp.get("proceed")){
+                            window.location.assign(usp.get("proceed"))
+                        }else{
+                            window.location.assign("/index.html")
+                        }
+                    }, 1000);
+                } else {
+                    $i("st").innerHTML = loadingSvg
+                    $i('maintainence').src = "assets/undraw_server.svg"
+                    $i("t1").innerHTML = "Uh oh thats not good,"
+                    $i("t2").innerHTML = "Server check failed.."
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
+                }
+            }).catch(window.location.reload)
+    }, 1000);
+</script>
+
+</html>
+<!-- green-effect: #2FAC77 -->
+<!-- background-shade: bg-neutral-900 -->
+<!-- light-shade: bg-neutral-800 -->

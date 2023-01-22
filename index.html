@@ -37,16 +37,16 @@
     })
     document.querySelectorAll(".loginButton").forEach(button=>{
         button.addEventListener("click",()=>{
-            window.location.assign("login.html")
+            window.location.assign("/servercheck.html?proceed=login.html")
         })
     })
     document.querySelectorAll(".signupButton").forEach(button=>{
         button.addEventListener("click",()=>{
             isAuthenticated().then(res=>{
                 if(res==true){
-                    window.location.assign("databases.html")
+                    window.location.assign("/servercheck.html?proceed=databases.html")
                 }else{
-                    window.location.assign("signup.html")
+                    window.location.assign("/servercheck.html?proceed=signup.html")
                 }
             })
         })

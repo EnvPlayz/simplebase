@@ -89,10 +89,14 @@
                         method: 'GET',
                         credentials: "include",
                     }).then((res) => res.json()).then(userData=>{
-                        if(red_url!="null"||red_url){
+                        if(red_url!=null||red_url){
+                            if(red_url=="null"){
+                                window.location.assign("databases.html")
+                                return false
+                            }
                             window.location.assign(red_url)
                         }else{
-                            window.location.assign("index.html")
+                            window.location.assign("databases.html")
                         }
                     })
                 }else{

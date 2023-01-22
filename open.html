@@ -145,6 +145,7 @@
             denyButtonText: `No, cancel`,
         }).then((result) => {
             if (result.isConfirmed) {
+                $i("refDeleteBtn").innerHTML=loadingSvg
                 fetch("https://api.simplebase.ga/databases/delete?db="+dbName, {
                     method: 'POST',
                     credentials: "include",
@@ -156,6 +157,7 @@
                     }),
                 }).then((res) => {
                     if (res.status == 200) {
+                        $i("refDeleteBtn").innerHTML = allowedSvg
                         Swal.fire({
                             icon: 'success',
                             title: 'Hey',
@@ -190,6 +192,7 @@
         try {
             var parsedJSON = JSON.parse(updDataInp.value)
             // var dataToSend = JSON.stringify(parsedJSON)
+            $i("refUpdBtn").innerHTML=loadingSvg
             fetch("https://api.simplebase.ga/databases/update?db=" + dbName, {
                 method: 'POST',
                 credentials: "include",
@@ -202,6 +205,7 @@
                 }),
             }).then((res) => {
                 if (res.status == 200) {
+                    $i("refUpdBtn").innerHTML = allowedSvg
                     Swal.fire({
                         icon: 'success',
                         title: 'Hey',
@@ -219,6 +223,7 @@
                 }
             }).catch(Swal.fire)
         } catch (error) {
+            $i("refUpdBtn").innerHTML = "Update"
             Swal.fire({
                 icon: 'error',
                 title: 'Hey',
@@ -241,9 +246,7 @@
         }
     })
     document.querySelector(".loadingDiv").innerHTML=loadingSvg
-    function updateVisual(dbs){
-        var dbData = dbs.databases[dbName]
-        // document.querySelector('#dbIdDiv').classList.remove("hidden")
+    function updateVisual(dbData){
         document.querySelector('#dbDataDiv').classList.remove("hidden")
         var dbFormatted = JSON.stringify(dbData.data, null, "\t");
         if(document.querySelector('#dbDataDiv').textContent == dbFormatted){
@@ -252,13 +255,12 @@
             document.querySelector('#dbDataDiv').textContent = dbFormatted
             hljs.highlightAll()
         }
-        // document.querySelector(".dbIdFillout").innerHTML = dbData.id
-        setTimeout(() => {
-            updateDb()
-        }, 1000);
+        // setTimeout(() => {
+        //     updateDb()
+        // }, 1000);
     }
-    updateDb()
-    function updateDb(){
+    initalUpdateDB()
+    function initalUpdateDB(){
         fetch("https://api.simplebase.ga/databases/get?for=realtime", {
             method: 'GET',
             credentials: "include",
@@ -278,7 +280,8 @@
                         }
                         document.getElementById('accessKeyInp')._e_= dbs.databases[dbName].auth
                         document.getElementById('accessKeyInp').value= dbs.databases[dbName].auth.substring(0,3)+finalstr.substring(3)
-                        updateVisual(dbs)
+                        updateVisual(dbs.databases[dbName])
+                        poll()
                     }else{
                         document.querySelector('#errmsgDiv').classList.remove("hidden")
                         window.location.assign("databases.html")
@@ -290,6 +293,24 @@
                 })
             }
         }).catch(console.error)
+    }
+    function poll(){
+        fetch("https://api.simplebase.ga/databases/listen?db="+dbName, {
+            method: 'GET',
+            credentials: "include",
+        }).then((res) => {
+            if (res.status == 200) {
+                res.json().then(dbs => {
+                    updateVisual(dbs)
+                    poll()
+                })
+            } else {
+                res.json().then(function (err) {
+                    console.error("Something went wrong.");
+                    poll()
+                })
+            }
+        }).catch((da)=> {console.error(da);poll()})
     }
 </script>
 

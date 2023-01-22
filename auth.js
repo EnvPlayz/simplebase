@@ -1,29 +1,58 @@
+var __authSt = "not sent yet"
+if (window.sessionStorage.getItem("served") != JSON.stringify(true)){
+    if(window.location.pathname.includes("/servercheck")){
+    }else{
+        window.location.assign("/servercheck.html?proceed="+window.location.pathname.replace("/",""))
+    }
+}
 async function isAuthenticated(){
-   return fetch("https://api.simplebase.ga/auth/user", {
+   if(__authSt!="not sent yet"){
+    return true
+   }else if(__authSt==401){
+    return false;
+   }
+    return fetch("https://api.simplebase.ga/auth/user", {
         method: 'GET',
         credentials: "include",
     }).then((res) => {
-        if(res.status==200){
+        if (res.status == 200) {
+            res.json().then(function (THEENC) {
+                __authSt = THEENC
+            })
             return true
-        }else{
+        } else {
+            if (res.status != 401) {
+                window.location.assign("/servercheck.html")
+            }else{
+                __authSt=401
+            }
             return false
         }
     }).catch(function () { return false })
 }
+setInterval(() => {
+    isAuthenticated()
+}, 1000);
 async function authData(){
     const pro = new Promise((resolve, reject) => {
-        fetch("https://api.simplebase.ga/auth/user", {
-            method: 'GET',
-            credentials: "include",
-        }).then((res) => {
-            if (res.status == 200) {
-                res.json().then(function (THEENC) {
-                    resolve(THEENC)
-                })
+        setTimeout(() => {
+            if (__authSt == "not sent yet") {
+                fetch("https://api.simplebase.ga/auth/user", {
+                    method: 'GET',
+                    credentials: "include",
+                }).then((res) => {
+                    if (res.status == 200) {
+                        res.json().then(function (THEENC) {
+                            resolve(THEENC)
+                        })
+                    } else {
+                        reject(false)
+                    }
+                }).catch(reject)
             } else {
-                reject(false)
+                resolve(__authSt)
             }
-        }).catch(reject)
+        }, 1000);
     });
    return pro
 }
