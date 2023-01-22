@@ -32,7 +32,7 @@ async function isAuthenticated(){
 }
 setInterval(() => {
     isAuthenticated()
-}, 1000);
+}, 10000);
 async function authData(){
     const pro = new Promise((resolve, reject) => {
         setTimeout(() => {
