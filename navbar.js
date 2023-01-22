@@ -53,9 +53,9 @@ document.getElementById("__grplogo").onmouseenter=function(){
 document.getElementById("__grplogo").onmouseleave=function(){
     document.getElementById("__navLOGO").src="assets/logo.png"
 }
-const script = document.createElement("script")
-script.src = "./spl.js"
-script.onload = function () {
-    _splash.createSplash(0.5)
-}
-document.head.appendChild(script)
+// const script = document.createElement("script")
+// script.src = "./spl.js"
+// script.onload = function () {
+//     _splash.createSplash(5)
+// }
+// document.head.appendChild(script)
