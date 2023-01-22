@@ -1,10 +1,12 @@
 var __authSt = "not sent yet"
-if (window.sessionStorage.getItem("served") != JSON.stringify(true)){
-    if(window.location.pathname.includes("/servercheck")){
-    }else{
-        window.location.assign("/servercheck.html?proceed="+window.location.pathname.replace("/",""))
+document.addEventListener("DOMContentLoaded",()=>{
+    if (window.sessionStorage.getItem("served") != JSON.stringify(true)) {
+        if (window.location.pathname.includes("/servercheck")) {
+        } else {
+            window.location.assign("/servercheck.html?proceed=" + window.location.pathname.replace("/", ""))
+        }
     }
-}
+})
 async function isAuthenticated(){
    if(__authSt!="not sent yet"){
     return true
@@ -30,9 +32,6 @@ async function isAuthenticated(){
         }
     }).catch(function () { return false })
 }
-setInterval(() => {
-    isAuthenticated()
-}, 10000);
 async function authData(){
     const pro = new Promise((resolve, reject) => {
         setTimeout(() => {

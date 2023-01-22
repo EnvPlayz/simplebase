@@ -1,7 +1,7 @@
     var tempHtml = document.body.innerHTML
     var nav = `<nav class="py-3 px-5 sticky top-0 w-full bg-neutral-900 z-50 bg-opacity-80 bg-clip-padding backdrop-blur-[3px] text-white border-neutral-800 border-b">
     <div class="relative max-w-7xl flex items-center justify-between mx-auto">
-        <div class="logo">
+        <div class="logo flex items-center">
             <a href="index.html" id="__grplogo" class="flex items-center group transition duration-200">
                 <img id="__navLOGO" src="assets/logo.png" class="w-[50px] h-[50px] group-hover:scale-[0.9] transition duration-200">
                     <p class="font-bold group-hover:scale-[1.1] transition duration-200 group-hover:text-[#2FAC77]">simplebase</p>
