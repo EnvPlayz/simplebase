@@ -60,7 +60,7 @@
             <button onclick="logout()"class="border-2 border-neutral-800 py-2 px-5 my-1 rounded-lg hover:bg-neutral-800 transition duration-200">Logout</button>
         </h1>
         <span class="text-[#2FAC77] dbFillout font-bold text-5xl m-5 text-center"></span>
-        <div class="bg-neutral-800 px-5 py-2 m-1 rounded-lg flex items-center justify-center flex-col">
+        <div class="shadow-md bg-neutral-800 px-5 py-2 m-1 rounded-lg flex items-center justify-center flex-col">
             <p class="text-md m-1">Your database access key</p>
             <div class="flex items-center justify-center flex-row">
                 <input type="text" id="accessKeyInp" class="bg-neutral-900 px-2 py-1 rounded-lg text-center text-[#2FAC77] h-fit w-full" readonly
@@ -107,9 +107,9 @@
                         d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
             </div>
-            <div id="errmsgDiv" class="bg-neutral-800 rounded-lg p-10 m-5 text-red-600 text-2xl hidden">Cannot find database.</div>
+            <div id="errmsgDiv" class="shadow-md bg-neutral-800 rounded-lg p-10 m-5 text-red-600 text-2xl hidden">Cannot find database.</div>
             <pre>
-                <code id="dbDataDiv" class="bg-neutral-800 rounded-lg p-10 m-5 hidden h-max language-json" style="white-space:pre">Data</code>
+                <code id="dbDataDiv" class="bg-neutral-800 shadow-md rounded-lg p-10 m-5 hidden h-max language-json" style="white-space:pre">Data</code>
             </pre>
         </div>
 </body>
@@ -126,6 +126,28 @@
     var dbName = new URLSearchParams(window.location.search).get("db")
     var deleteBtn = document.querySelector("#deleteBtn")
     var deleteBtn = document.querySelector("#deleteBtn")
+    // window.onbeforeunload=function(){
+    //     fetch("https://api.simplebase.ga/exit")
+    //     return null
+    // }
+    document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState == 'hidden') {
+                console.log("hidden");
+                // navigator.sendBeacon("https://api.simplebase.ga/exit");
+            }
+        });
+        function register(){
+            fetch("https://serve.simplebase.ga/read", {
+                method: 'POST',
+                // credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "ref": refInp.value
+                }),
+            })
+        }
     function deleteRef(){
         var refInp = $i("refInp")
         if(refInp.value.trim().length<1){
@@ -250,7 +272,7 @@
         document.querySelector('#dbDataDiv').classList.remove("hidden")
         var dbFormatted = JSON.stringify(dbData.data, null, "\t");
         if(document.querySelector('#dbDataDiv').textContent == dbFormatted){
-            console.log("same");
+            console.log("suspicious attempt on data update");
         }else{
             document.querySelector('#dbDataDiv').textContent = dbFormatted
             hljs.highlightAll()
@@ -304,11 +326,11 @@
                     updateVisual(dbs)
                     poll()
                 })
+            } else if(res.status==408){
+                poll()
             } else {
-                res.json().then(function (err) {
-                    console.error("Something went wrong.");
-                    poll()
-                })
+                console.error("Something went wrong.");
+                window.location.reload()
             }
         }).catch((da)=> {console.error(da);poll()})
     }

@@ -43,11 +43,14 @@
         menu.classList.toggle("hidden")
     })
     var usp = new URLSearchParams(window.location.search)
+    var sendingreq = false
     setTimeout(() => {
+        sendingreq=true
         fetch("https://api.simplebase.ga/", {
                 method: 'GET',
                 credentials: "include",
             }).then((res) => {
+                sendingreq=false
                 if (res.status == 200) {
                     $i("st").innerHTML=allowedSvg
                     $i('maintainence').src="assets/undraw_server_push.svg"
@@ -71,6 +74,12 @@
                     }, 1000);
                 }
             }).catch(window.location.reload)
+            setTimeout(() => {
+                if(sendingreq==true){
+                    // still
+                    window.location.reload()
+                }
+            }, 10000);
     }, 1000);
 </script>
 
