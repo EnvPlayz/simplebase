@@ -44,6 +44,29 @@
     })
     var usp = new URLSearchParams(window.location.search)
     var sendingreq = false
+    if(usp.get("try")){
+        if(usp.get("try") > '4'){
+            window.location.assign("/servercheck.html?try=1")
+        }
+        switch (usp.get("try")) {
+            case '1':
+                $i("t1").innerHTML = "Hang tight.."
+                $i("t2").innerHTML = ""
+                break;
+            case '2':
+                $i("t1").innerHTML = "Give us a second while we"
+                $i("t2").innerHTML = "ping the server"
+                break;
+            case '3':
+                $i("t1").innerHTML = "Server doesnt seem to respond,"
+                $i("t2").innerHTML = "We are still trying.."
+                break;
+            case '4':
+                $i("t1").innerHTML = ""
+                $i("t2").innerHTML = "Please wait.."
+                break;
+        }
+    }
     setTimeout(() => {
         sendingreq=true
         fetch("https://api.simplebase.ga/", {
@@ -73,11 +96,15 @@
                         window.location.reload()
                     }, 1000);
                 }
-            }).catch(window.location.reload)
+            })
             setTimeout(() => {
                 if(sendingreq==true){
                     // still
-                    window.location.reload()
+                    if(usp.get("try")){
+                        window.location.assign(`/servercheck.html?try=${Number(usp.get("try"))+Number(1)}`)
+                    }else{
+                        window.location.assign("/servercheck.html?try=1")
+                    }
                 }
             }, 10000);
     }, 1000);
