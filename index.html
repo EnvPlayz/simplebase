@@ -50,7 +50,7 @@
         })
     })
     function signupclick(){
-        this.innerHTML=simplebase_icons.
+        this.innerHTML=simplebase_icons.loading
         isAuthenticated().then(res => {
             if (res == true) {
                 window.location.assign("/servercheck.html?proceed=databases.html")
