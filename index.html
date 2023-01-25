@@ -23,7 +23,7 @@
             can use simplebase on any programming language that
             supports <span class="text-[#2FAC77]">HTTPS</span> requests.</p>
             <div class="mx-5 flex space-x-2">
-                <button onclick="signupclick(this)" class="signupButton p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
+                <button class="signupButton p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
                 <button class="border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Documentation</button>
             </div>
         </div>
@@ -49,8 +49,8 @@
             signupclick(button)
         })
     })
-    function signupclick(){
-        this.innerHTML=simplebase_icons.loading
+    function signupclick(elem){
+        elem.innerHTML=simplebase_icons.loading
         isAuthenticated().then(res => {
             if (res == true) {
                 window.location.assign("/servercheck.html?proceed=databases.html")
