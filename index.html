@@ -23,7 +23,7 @@
             can use simplebase on any programming language that
             supports <span class="text-[#2FAC77]">HTTPS</span> requests.</p>
             <div class="mx-5 flex space-x-2">
-                <button onclick="signupclick()" class="signupButton p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
+                <button onclick="signupclick(this)" class="signupButton p-2 text-xs rounded-lg bg-[#2FAC77] hover:bg-[#019678] transition duration-200">Start creating</button>
                 <button class="border p-2 text-xs rounded-lg border-neutral-800 text-gray-100 hover:bg-neutral-800 transition duration-200">Documentation</button>
             </div>
         </div>
@@ -33,6 +33,9 @@
 <script>
     const mobileIcon = document.querySelector(".mobile-menu-icon")
     const menu = document.querySelector(".mobile-menu")
+    var allowedSvg = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /</svg>`
+    var loadingSvg = `<svg class="w-10 h-10 spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>`
+
     mobileIcon.addEventListener("click",function(){
         menu.classList.toggle("hidden")
     })
@@ -43,10 +46,11 @@
     })
     document.querySelectorAll(".signupButton").forEach(button=>{
         button.addEventListener("click",()=>{
-            signupclick()
+            signupclick(button)
         })
     })
     function signupclick(){
+        this.innerHTML=simplebase_icons.
         isAuthenticated().then(res => {
             if (res == true) {
                 window.location.assign("/servercheck.html?proceed=databases.html")
