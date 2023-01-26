@@ -23,7 +23,7 @@
 
                     </div>
                     </div>
-    <div class="md:hidden mobile-menu">
+    <div class="hidden mobile-menu">
     <a href="login.html" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Sign in</a>
         <a href="#" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Documentation</a>
         <a href="databases.html" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Databases</a>
