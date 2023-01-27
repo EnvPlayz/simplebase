@@ -41,7 +41,7 @@
         </div>
     </div>
 </body>
-<script defer>
+<script>
     // why are you reading this code dont try to tamper with it or else you might jsut get a smol lil hardware ban :D
     const mobileIcon = document.querySelector(".mobile-menu-icon")
     const menu = document.querySelector(".mobile-menu")
@@ -53,14 +53,11 @@
             window.location.assign("login.html")
         })
     })
-    isAuthenticated().then(res => {
-        if (res != true) {
-            window.location.assign("login.html?redirect_url=databases.html")
-        }
-    })
     authData().then(authDta=>{
         if(authDta!=false){
             document.querySelector('.usernameFillout').textContent=authDta.username
+        }else{
+           window.location.assign("login.html?redirect_url=databases.html") 
         }
     })
     function createErr(msg){
