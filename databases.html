@@ -120,6 +120,9 @@
                 res.json().then(function (err) {
                     console.error("Something went wrong.");
                     document.querySelector('.dbGrid').innerHTML = "Something went wrong. "
+                    setTimeout(() => {
+                        window.location.assign("/login.html?redirect_url=databases.html")
+                    }, 1000);
                 })
             }
         }).catch(console.error)
