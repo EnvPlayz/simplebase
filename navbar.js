@@ -1,5 +1,5 @@
     var tempHtml = document.body.innerHTML
-    var nav = `<nav class="py-3 px-5 sticky top-0 w-full bg-neutral-900 z-50 bg-opacity-80 bg-clip-padding backdrop-blur-[3px] text-white border-neutral-800 border-b">
+var nav = `<nav class="z-[50] py-3 px-5 sticky top-0 w-full bg-neutral-900 z-50 bg-opacity-80 bg-clip-padding backdrop-blur-[3px] text-white border-neutral-800 border-b">
     <div class="relative max-w-7xl flex items-center justify-between mx-auto">
         <div class="logo flex items-center">
             <a href="index.html" id="__grplogo" class="flex items-center group transition duration-200">
@@ -29,7 +29,7 @@
         <a href="databases.html" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Databases</a>
         </div>
         </nav>
-        <div class="alert bg-neutral-800 py-5 translate-y-[-500%] transition duration-[0.9s] postion-absolute px-2 text-center">
+        <div class="z-[30] w-full opacity-95 absolute alert bg-neutral-800 py-5 translate-y-[-500%] transition duration-[0.9s] px-2 text-center">
             Whenever a page stalls or fails to load, you should close the tab and reopen this page
         </div>`
         document.body.innerHTML=nav
@@ -63,6 +63,8 @@ document.getElementById("__grplogo").onmouseleave=function(){
 document.body.classList.add("transition")
 document.body.classList.add("duration-[1s]")
 document.addEventListener("DOMContentLoaded",()=>{
+    window.history.pushState({}, "", window.location.pathname.replace(".html",""))
+    // document.querySelector("._pgstalled")?.remove()
     document.body.classList.add("scroll-smooth")
     document.querySelector(".alert").classList.remove("translate-y-[-500%]")
     setTimeout(() => {
@@ -70,7 +72,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         setTimeout(() => {
             document.querySelector(".alert").remove()
         }, 1000);
-    }, 10000);
+    }, 5000);
     document.querySelector(".mobile-menu-icon").addEventListener("click",()=>{
         document.querySelector(".alert").classList.toggle("translate-y-[-500%]")
     })

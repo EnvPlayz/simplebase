@@ -11,23 +11,34 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class=" bg-neutral-900 text-white">
+<body class=" bg-neutral-900 h-screen text-white">
     <script src="auth.js"></script>
     <script src="navbar.js"></script>
-    <div class="flex items-center my-40 justify-around md:flex-row flex-col">
-        <div class="flex justify-center flex-col">
-            <h1 class="text-5xl font-bold my-2 md:text-start text-center">Welcome lets</h1>
-            <span class="text-5xl text-center md:text-start font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#2FAC77] to-[#1B6646]">create</span>
-            <h1 class="text-5xl font-bold my-2 md:text-start text-center">an account</h1>
+    <div style="background: url('https://source.unsplash.com/random/1920x1080/?abstract,wallpaper');background-size: cover;-webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(40%, transparent), to(black));
+  -webkit-mask-image: linear-gradient(to right, transparent 40%, black);
+          mask-image: -webkit-gradient(linear, left top, right top, color-stop(40%, transparent), to(black));
+          mask-image: linear-gradient(to right, transparent 40%, black);"
+        class="bg-gradient-to-r from-blue-500 h-screen w-screen fixed z-[-10] top-0 left-0 blur-sm"></div>
+    <div class="flex h-full justify-between z-[20]">
+        <div
+            class="z-[20] md:flex hidden justify-center flex-col bg-neutral-900 w-[60%] justify-center items-center opacity-95">
+            <h1 class="text-5xl font-bold my-2">Welcome lets</h1>
+            <span
+            class="text-5xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#2FAC77] to-[#1B6646]">create</span>
+            <h1 class="text-5xl font-bold my-2">an account</h1>
         </div>
-        <div class="bg-neutral-800 rounded-lg flex flex-col w-fit h-max p-10 m-5 space-y-3">
-            <h1 class="text-4xl font-bold text-center my-5">Sign up</h1>
-            <input type="text" class="m-2 px-8 py-3 rounded text-black" placeholder="Username" id="username">
-            <input type="password" class="m-2 px-8 py-3 rounded text-black" placeholder="Password" id="pass">
-            <button id="loginBtn"
-                class="p-5 bg-[#2FAC77] hover:bg-[#1B6646] transition duration-200 rounded-lg flex justify-center items-center">Sign up</button>
-            <p id="errmsg" class="text-center text-red-600 hidden">Thats not right.. Try refreshing</p>
-            <a href="login.html" id="signAcc" class="text-center hover:text-gray-300">Already have an account? Login</a>
+        <div class="h-full flex flex-col items-center justify-center w-full z-[20]">
+            <div
+                class="m-5 z-[20] bg-neutral-800 opacity-90 flex items-center justify-center flex-col shadow-lg p-10 space-y-3 rounded-lg">
+                <h1 class="text-4xl font-bold text-center my-5">Sign up</h1>
+                <input type="text" class="w-full m-2 px-8 py-3 rounded text-black" placeholder="Username" id="username">
+                <input type="password" class="w-full m-2 px-8 py-3 rounded text-black" placeholder="Password" id="pass">
+                <button id="loginBtn"
+                    class="w-full p-5 bg-[#2FAC77] hover:bg-[#1B6646] transition duration-200 rounded-lg flex justify-center items-center">Login</button>
+                <p id="errmsg" class="text-center text-red-600 hidden">Thats not right.. Try refreshing</p>
+                <a href="signup.html" id="signAcc" class="text-center hover:text-gray-300">Dont have an account? Create one
+                    today!</a>
+            </div>
         </div>
     </div>
 </body>
