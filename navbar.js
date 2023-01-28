@@ -62,8 +62,8 @@ document.getElementById("__grplogo").onmouseleave=function(){
 }
 document.body.classList.add("transition")
 document.body.classList.add("duration-[1s]")
+// window.history.pushState({}, "", window.location.pathname.replace(".html",""))
 document.addEventListener("DOMContentLoaded",()=>{
-    window.history.pushState({}, "", window.location.pathname.replace(".html",""))
     // document.querySelector("._pgstalled")?.remove()
     document.body.classList.add("scroll-smooth")
     document.querySelector(".alert").classList.remove("translate-y-[-500%]")
