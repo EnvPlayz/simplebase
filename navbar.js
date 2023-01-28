@@ -28,7 +28,10 @@
         <a href="#" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Documentation</a>
         <a href="databases.html" class="block py-2 px-4 text-sm text-center hover:text-[#2FAC77] transition duration-200">Databases</a>
         </div>
-        </nav>`
+        </nav>
+        <div class="alert bg-neutral-800 py-5 translate-y-[-500%] transition duration-[0.9s] postion-absolute px-2 text-center">
+            Whenever a page stalls or fails to load, you should close the tab and reopen this page
+        </div>`
         document.body.innerHTML=nav
         document.body.innerHTML+=tempHtml
         const simplebase_icons = {
@@ -57,6 +60,21 @@ document.getElementById("__grplogo").onmouseenter=function(){
 document.getElementById("__grplogo").onmouseleave=function(){
     document.getElementById("__navLOGO").src="assets/logo.png"
 }
+document.body.classList.add("transition")
+document.body.classList.add("duration-[1s]")
+document.addEventListener("DOMContentLoaded",()=>{
+    document.body.classList.add("scroll-smooth")
+    document.querySelector(".alert").classList.remove("translate-y-[-500%]")
+    setTimeout(() => {
+        document.querySelector(".alert").classList.add("translate-y-[-500%]")
+        setTimeout(() => {
+            document.querySelector(".alert").remove()
+        }, 1000);
+    }, 10000);
+    document.querySelector(".mobile-menu-icon").addEventListener("click",()=>{
+        document.querySelector(".alert").classList.toggle("translate-y-[-500%]")
+    })
+})
 // const script = document.createElement("script")
 // script.src = "./spl.js"
 // script.onload = function () {
